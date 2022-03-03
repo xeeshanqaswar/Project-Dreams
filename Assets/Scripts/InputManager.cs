@@ -58,6 +58,13 @@ namespace Practise
             HandleInput();
             UpdateState();
             HandleShake();
+
+            // check for obstacle in front of camera.
+            CameraCollision();
+
+            // Update Camera Position
+            curZ = Mathf.Lerp(curZ, targetZ, Time.deltaTime * 15);
+            camTrans.localPosition = new Vector3(0f,0f,curZ);
         }
 
         private void HandleShake()
@@ -98,6 +105,14 @@ namespace Practise
         private void CameraCollision()
         {
             Vector3 origin = camPivot.TransformPoint(Vector3.zero);
+            Vector3 direction = camTrans.TransformPoint(Vector3.zero) - origin;
+
+            actualZ = targetZ;
+
+            if (Physics.Raycast(origin, direction, out RaycastHit hit, Mathf.Abs(targetZ), layerMask))
+            {
+                actualZ = -Vector3.Distance(camPivot.position, hit.point);
+            }
         }
     }
 }
