@@ -62,6 +62,8 @@ namespace Practise
 
         private void HandleShake()
         {
+            curFov = Mathf.Lerp(curFov, targetFov, Time.deltaTime * 5);
+            Camera.main.fieldOfView = curFov;
         }
 
         private void UpdateState()
@@ -91,6 +93,11 @@ namespace Practise
         private void HandleInput()
         {
             // fire3 == left stick
+        }
+
+        private void CameraCollision()
+        {
+            Vector3 origin = camPivot.TransformPoint(Vector3.zero);
         }
     }
 }
